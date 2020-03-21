@@ -45,7 +45,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 		        <?= $this->Html->link(__('Profile'), ['action' => 'profile'], ['class' => 'btn btn-outline-success float-right']) ?>
 		      </li>
 		      <li class="nav-item p-1">
-		        <?= $this->Html->link(__('Logout'), ['action' => 'logout'], ['class' => 'btn btn-outline-danger float-right']) ?>
+		        <?= $this->Html->link(__('Logout'), ['controller'=>'users','action' => 'logout'], ['class' => 'btn btn-outline-danger float-right']) ?>
 		      </li>
 		     <?php } ?>
 	    </ul>

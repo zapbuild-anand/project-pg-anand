@@ -8,7 +8,7 @@
 		</form>
 	</div>
 	<div class="col-8 p-4 text-lg-right">
-		<?= $this->Html->link(__('Host Zone'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+		<?= $this->Html->link(__('Host Zone'), ['controller'=>'hosts','action' => 'index'], ['class' => 'side-nav-item']) ?>
 	</div>
 </div>
 
