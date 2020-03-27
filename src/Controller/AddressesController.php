@@ -4,6 +4,11 @@ declare(strict_types=1);
 namespace App\Controller;
 class AddressesController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->viewBuilder()->setLayout('customLayout');
+    }
     public function index()
     {
         $this->paginate = [
@@ -23,11 +28,30 @@ class AddressesController extends AppController
         $this->set('address', $address);
     }
 
-    public function add()
+    public function addPg($id = null)
     {
         $address = $this->Addresses->newEmptyEntity();
         if ($this->request->is('post')) {
             $address = $this->Addresses->patchEntity($address, $this->request->getData());
+            $address->pg_id=$id;
+            if ($this->Addresses->save($address)) {
+                $this->Flash->success(__('The address has been saved.'));
+
+                return $this->redirect(['controller'=>'facilities','action' => 'add',$id]);
+            }
+            $this->Flash->error(__('The address could not be saved. Please, try again.'));
+        }
+        $users = $this->Addresses->Users->find('list', ['limit' => 200]);
+        $pgs = $this->Addresses->Pgs->find('list', ['limit' => 200]);
+        $this->set(compact('address', 'users', 'pgs'));
+    }
+
+    public function addUser($id = null)
+    {
+        $address = $this->Addresses->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $address = $this->Addresses->patchEntity($address, $this->request->getData());
+            $address->user_id = $this->request->getAttribute('identity')->getIdentifier();
             if ($this->Addresses->save($address)) {
                 $this->Flash->success(__('The address has been saved.'));
 

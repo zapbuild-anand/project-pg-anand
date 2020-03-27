@@ -15,12 +15,16 @@ class PgPolicy
     public function canEdit(IdentityInterface $user,Pg $pg)
     {
         // logged in users can edit their ownPgs.
+        if($user->type==3)
+            return true;
         return $this->isAuthor($user, $pg);
     }
 
     public function canDelete(IdentityInterface $user,Pg $pg)
     {
         // logged in users can delete their ownPgs.
+        if($user->type==3)
+            return true;
         return $this->isAuthor($user, $pg);
     }
 

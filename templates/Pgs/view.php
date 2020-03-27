@@ -1,87 +1,90 @@
 <div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit Pg'), ['action' => 'edit', $pg->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Pg'), ['action' => 'delete', $pg->id], ['confirm' => __('Are you sure you want to delete # {0}?', $pg->id), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Pgs'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New Pg'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
+    <div class="col">
         <div class="pgs view content">
             <h3><?= h($pg->name) ?></h3>
-            <table>
-                <tr>
-                    <th><?= __('Name') ?></th>
-                    <td><?= h($pg->name) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('User') ?></th>
-                    <td><?= $pg->has('user') ? $this->Html->link($pg->user->id, ['controller' => 'Users', 'action' => 'view', $pg->user->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Type') ?></th>
-                    <td><?= h($pg->type) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Landmark') ?></th>
-                    <td><?= h($pg->landmark) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Status') ?></th>
-                    <td><?= h($pg->status) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Approved') ?></th>
-                    <td><?= h($pg->approved) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($pg->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Sharing') ?></th>
-                    <td><?= $this->Number->format($pg->sharing) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('TotalFloors') ?></th>
-                    <td><?= $this->Number->format($pg->totalFloors) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('PgOnFloor') ?></th>
-                    <td><?= $this->Number->format($pg->pgOnFloor) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('NoOfRooms') ?></th>
-                    <td><?= $this->Number->format($pg->noOfRooms) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('HouseNumber') ?></th>
-                    <td><?= $this->Number->format($pg->houseNumber) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('AvailableFrom') ?></th>
-                    <td><?= h($pg->availableFrom) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Expire') ?></th>
-                    <td><?= h($pg->expire) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($pg->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($pg->modified) ?></td>
-                </tr>
-            </table>
-            <div class="related">
-                <h4><?= __('Related Addresses') ?></h4>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <tr>
+                            <th><?= __('Name') ?></th>
+                            <td><?= h($pg->name) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Owner') ?></th>
+                            <td><?= $pg->has('user') ? $this->Html->link($pg->user->firstname, ['controller' => 'Users', 'action' => 'view', $pg->user->id]) : '' ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Type') ?></th>
+                            <td><?= h($pg->type) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Landmark') ?></th>
+                            <td><?= h($pg->landmark) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Status') ?></th>
+                            <td><?= h($pg->status) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Approved') ?></th>
+                            <td><?= h($pg->approved) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Id') ?></th>
+                            <td><?= $this->Number->format($pg->id) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Sharing') ?></th>
+                            <td><?= $this->Number->format($pg->sharing) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('TotalFloors') ?></th>
+                            <td><?= $this->Number->format($pg->totalFloors) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('PgOnFloor') ?></th>
+                            <td><?= $this->Number->format($pg->pgOnFloor) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('NoOfRooms') ?></th>
+                            <td><?= $this->Number->format($pg->noOfRooms) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('HouseNumber') ?></th>
+                            <td><?= $this->Number->format($pg->houseNumber) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('AvailableFrom') ?></th>
+                            <td><?= h($pg->availableFrom) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Expire') ?></th>
+                            <td><?= h($pg->expire) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Created') ?></th>
+                            <td><?= h($pg->created) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Modified') ?></th>
+                            <td><?= h($pg->modified) ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <h4>Details</h4>
+                    <a href="#address">Address</a><br>
+                    <a href="#facilities">Facilities</a><br>
+                    <a href="#images">Images</a><br>
+                    <a href="#pricing">Pricing</a><br>
+                    <a href="#rules">Rules</a><br>
+                </div>
+            </div>
+            <div class="related" id="address">
+                <h4><?= __('Addresses') ?></h4>
                 <?php if (!empty($pg->addresses)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('User Id') ?></th>
@@ -112,11 +115,11 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="related">
-                <h4><?= __('Related Facilities') ?></h4>
+            <div class="related" id="facilities">
+                <h4><?= __('Facilities') ?></h4>
                 <?php if (!empty($pg->facilities)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Pg Id') ?></th>
@@ -171,11 +174,11 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="related">
-                <h4><?= __('Related Images') ?></h4>
+            <div class="related" id="images">
+                <h4><?= __('Images') ?></h4>
                 <?php if (!empty($pg->images)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Pg Id') ?></th>
@@ -198,11 +201,11 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="related">
-                <h4><?= __('Related Pricings') ?></h4>
+            <div class="related" id="pricing">
+                <h4><?= __('Pricings') ?></h4>
                 <?php if (!empty($pg->pricings)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Pg Id') ?></th>
@@ -233,11 +236,11 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="related">
-                <h4><?= __('Related Ratings') ?></h4>
+            <div class="related" id="rating">
+                <h4><?= __('Ratings') ?></h4>
                 <?php if (!empty($pg->ratings)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('User Id') ?></th>
@@ -266,11 +269,11 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="related">
-                <h4><?= __('Related Requests') ?></h4>
+            <div class="related" id="request">
+                <h4><?= __('Requests') ?></h4>
                 <?php if (!empty($pg->requests)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Pg Id') ?></th>
@@ -297,11 +300,11 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="related">
-                <h4><?= __('Related Rules') ?></h4>
+            <div class="related" id="rules">
+                <h4><?= __('Rules') ?></h4>
                 <?php if (!empty($pg->rules)) : ?>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Pg Id') ?></th>

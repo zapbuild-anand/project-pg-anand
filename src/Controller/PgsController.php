@@ -4,6 +4,11 @@ declare(strict_types=1);
 namespace App\Controller;
 class PgsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->viewBuilder()->setLayout('customLayout');
+    }
     public function index()
     {
         $this->Authorization->skipAuthorization();
@@ -38,7 +43,7 @@ class PgsController extends AppController
             if ($this->Pgs->save($pg)) {
                 $this->Flash->success(__('The pg has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>'addresses','action' => 'add-pg',$pg->id]);
             }
             $this->Flash->error(__('The pg could not be saved. Please, try again.'));
         }

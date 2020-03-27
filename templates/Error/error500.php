@@ -31,8 +31,8 @@ if (Configure::read('debug')) :
 <?php endif; ?>
 <?php
     echo $this->element('auto_table_warning');
-
     $this->end();
+    
 endif;
 ?>
 <h2><?= __d('cake', 'An Internal Error Has Occurred') ?></h2>

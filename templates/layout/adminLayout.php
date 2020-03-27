@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title><?= $title ?></title>
+    <title>Admin Panel</title>
 
     <?= $this->Html->css('bootstrap.min.css') ?>
     <?= $this->Html->css('style.css') ?>
@@ -51,10 +51,10 @@
                     <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Cities</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu2">
                         <li>
-                            <?= $this->Html->link(__('View'), ['controller'=>'pgs','action' => 'index']) ?>
+                            <?= $this->Html->link(__('View'), ['controller'=>'categories','action' => 'city']) ?>
                         </li>
                         <li>
-                            <?= $this->Html->link(__('Add/Update'), ['controller'=>'pgs','action' => 'add']) ?>
+                            <?= $this->Html->link(__('Add/Update'), ['controller'=>'categories','action' => 'add-city']) ?>
                         </li>
                     </ul>
                 </li>
@@ -62,10 +62,10 @@
                     <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">States</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu3">
                         <li>
-                            <?= $this->Html->link(__('View'), ['controller'=>'pgs','action' => 'index']) ?>
+                            <?= $this->Html->link(__('View'), ['controller'=>'categories','action' => 'state']) ?>
                         </li>
                         <li>
-                            <?= $this->Html->link(__('Add/Update'), ['controller'=>'pgs','action' => 'add']) ?>
+                            <?= $this->Html->link(__('Add/Update'), ['controller'=>'categories','action' => 'add-state']) ?>
                         </li>
                     </ul>
                 </li>
@@ -80,9 +80,6 @@
                             <?= $this->Html->link(__('Contact Us'), ['controller'=>'pgs','action' => 'add']) ?>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
                 </li>
             </ul>
 

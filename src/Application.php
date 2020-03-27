@@ -28,8 +28,13 @@ use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Middleware\RequestAuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
+use Authorization\Policy\MapResolver;
+use Authorization\Policy\ResolverCollection;
 use Psr\Http\Message\ResponseInterface;
+use Cake\Http\ServerRequest;
+use App\Policy\RequestPolicy;
 
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
@@ -96,7 +101,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
             ->add(new AuthenticationMiddleware($this))
-            ->add(new AuthorizationMiddleware($this));
+            ->add(new AuthorizationMiddleware($this))
+            ->add(new RequestAuthorizationMiddleware());
 
         return $middlewareQueue;
     }
@@ -152,8 +158,12 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {
-        $resolver = new OrmResolver();
+        $ormResolver = new OrmResolver();
 
+        $mapResolver = new MapResolver();
+        $mapResolver->map(ServerRequest::class, RequestPolicy::class);
+
+        $resolver = new ResolverCollection([$mapResolver, $ormResolver]);
         return new AuthorizationService($resolver);
     }
 }

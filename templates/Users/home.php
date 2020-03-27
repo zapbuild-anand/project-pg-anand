@@ -3,7 +3,7 @@
 	<div class="col-4 p-4">
 	<h2>It's Easy</h2>
 		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search" placeholder="Enter city" aria-label="Search">
+			<input class="form-control mr-sm-2" type="search" placeholder="Enter area, city" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		</form>
 	</div>
@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<div id="demo" class="carousel slide carousel-fade" data-ride="carousel">
+<!-- <div id="demo" class="carousel slide carousel-fade" data-ride="carousel">
   <ul class="carousel-indicators">
     <li data-target="#demo" data-slide-to="0" class="active"></li>
     <li data-target="#demo" data-slide-to="1"></li>
@@ -48,13 +48,33 @@
     <span class="carousel-control-next-icon"></span>
   </a>
 </div>
+ -->
 
-
-
-<div class="row justify-content-xl-center">
-	<div class="col-auto">
-		<h1>Why PG?</h1>
-	</div>
+<div class="container">
+  <div class="row justify-content-md-center">
+  	<div class="col-auto">
+  		<h1>Why PG?</h1>
+  	</div>
+  </div>
+  <div class="row">
+      <div class="col">
+          <h3>Hello</h3>
+      </div>
+      <div class="col">
+          <div class="row">
+            <h3>Choose from over XXXXXX properties</h3>
+            <p>Now choose from XXXXX+ properties and pay rent online in just one click. </p>
+          </div>
+          <div class="row">
+            <h3>Easier on the Pocket</h3>
+            <p>No commuting to multiple locations, no brokerage fee, no hidden costs because you deserve the best. </p>
+          </div>
+          <div class="row">
+            <h3>Safety & Security</h3>
+            <p>With round the clock security guards present, our properties are a safe haven for all our residents. </p>
+          </div>
+      </div>    
+  </div>
 </div>
 <!-- <div class="row">
 	<div class="col-6">

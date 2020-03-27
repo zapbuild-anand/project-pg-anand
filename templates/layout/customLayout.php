@@ -13,6 +13,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->meta('icon') ?>
   	
     <?= $this->Html->css('bootstrap.min.css') ?>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -22,9 +23,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 	  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 	    <a class="navbar-brand" href="/">PG</a>
 	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-	      </li>
 	      <li class="nav-item">
 	        <a class="nav-link" href="#">About Us</a>
 	      </li>
@@ -35,19 +33,26 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 	  	<ul class="navbar-nav">
 	  		<?php if(!isset($_SESSION['user'])){ ?>
 		      <li class="nav-item p-1">
-		        <?= $this->Html->link(__('Login'), ['action' => 'login'], ['class' => ' btn btn-outline-success float-right']) ?>
+		        <?= $this->Html->link(__('Login'), ['controller'=>'users','action' => 'login'], ['class' => ' btn btn-outline-success float-right']) ?>
 		      </li>
 		      <li class="nav-item p-1">
 		        <?= $this->Html->link(__('Register'), ['action' => 'add'], ['class' => 'btn btn-outline-success float-right']) ?>
 		      </li>
 		     <?php }else{ ?>
-		      <li class="nav-item p-1">
-		        <?= $this->Html->link(__('Profile'), ['action' => 'profile'], ['class' => 'btn btn-outline-success float-right']) ?>
-		      </li>
-		      <li class="nav-item p-1">
-		        <?= $this->Html->link(__('Logout'), ['controller'=>'users','action' => 'logout'], ['class' => 'btn btn-outline-danger float-right']) ?>
-		      </li>
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Menu
+		        </a>
+		        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+		        	<?= $this->Html->link(__('Profile'), ['controller'=>'users','action' => 'profile'], ['class' => 'dropdown-item']) ?>
+		        	<?= $this->Html->link(__('Dashboard'), ['controller'=>'hosts','action' => 'dashboard'], ['class' => 'dropdown-item']) ?>
+		          	<?= $this->Html->link(__('My Favourites'), ['action' => 'profile'], ['class' => 'dropdown-item']) ?>
+		          	<?= $this->Html->link(__('My Bookings'), ['action' => 'profile'], ['class' => 'dropdown-item']) ?>
+		          	<?= $this->Html->link(__('Logout'), ['controller'=>'users','action' => 'logout'], ['class' => 'dropdown-item btn btn-outline-danger float-right']) ?>
+		        </div>
+		     </li>
 		     <?php } ?>
+		     
 	    </ul>
 	  </div>
 	</nav>
@@ -62,7 +67,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </main>
     <footer>
     </footer>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <?= $this->Html->script('bootstrap.min.js') ?>
 

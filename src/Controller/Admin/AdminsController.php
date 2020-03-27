@@ -1,7 +1,7 @@
 <?php
     namespace App\Controller\Admin;
     use Cake\ORM\TableRegistry;
-    class AdminController extends AppController
+    class AdminsController extends AppController
     {
     	public function initialize(): void
 	    {
@@ -11,7 +11,8 @@
     	public function index()
     	{
     		$this->Authorization->skipAuthorization();
-    		$owners = TableRegistry::getTableLocator()->get('Users');
+    		$user = $this->request->getAttribute('identity');
+            $owners = TableRegistry::getTableLocator()->get('Users');
     		$owner=$owners->findByType('2');
     		$oc=0;
     		foreach ($owner as $row) 
@@ -21,7 +22,7 @@
         	$this->set('owners',$oc);
 
         	$pgs = TableRegistry::getTableLocator()->get('Pgs');
-    		$pg=$owners->find();
+    		$pg=$pgs->find();
     		$pc=0;
     		foreach ($pg as $row) 
     		{

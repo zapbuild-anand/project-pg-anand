@@ -10,6 +10,8 @@ class UserPolicy
 {
     public function canEdit(IdentityInterface $user, User $resource)
     {
+        if($user->type==3)
+            return true;
         return $this->isAuthor($user, $resource);
     }
 

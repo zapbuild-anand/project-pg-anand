@@ -117,7 +117,7 @@ class UsersController extends AppController
                 move_uploaded_file($file_tmp,$base_url."/".$file_name);
             }
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            $user['image']=$file_name;    
+            $user->image=$file_name;    
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -128,8 +128,10 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
-    public function edit($id = null)
+    public function edit()
     {
+        $base_url=WWW_ROOT."img";
+        $id=$this->Authentication->getIdentity()->id;
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
@@ -141,11 +143,92 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'index']);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
+            if(file_exists(WWW_ROOT."img/".$user['image']))
+            {
+                //delete file
+                unlink(WWW_ROOT."img/".$user['image']);
+            }
+            else{}
+
+            if($_FILES['image']['tmp_name'])
+            {
+                $file_tmp =$_FILES['image']['tmp_name'];
+                $file_name = "".date('mdYHis')."".$_FILES['image']['name'];
+                move_uploaded_file($file_tmp,$base_url."/".$file_name);
+            }
+
             $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user['image']=$file_name;
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'profile']);
+            }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+        $this->set(compact('user'));
+    }
+    public function changePassword()
+    {
+        $id=$this->Authentication->getIdentity()->id;
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+        if($this->Authorization->can($user, 'edit'))
+            $this->set('user', $user);
+        else
+        {
+            $this->Flash->error(__('Unauthorized access'));
+            return $this->redirect(['action' => 'index']);
+        }
+        if ($this->request->is(['patch', 'post', 'put'])) {
+          $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('Password changed successfully.'));
+
+                return $this->redirect(['action' => 'profile']);
+            }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+        $this->set(compact('user'));
+    }
+
+    public function changeImage()
+    {
+        $base_url=WWW_ROOT."img";
+        $id=$this->Authentication->getIdentity()->id;
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+        if($this->Authorization->can($user, 'edit'))
+            $this->set('user', $user);
+        else
+        {
+            $this->Flash->error(__('Unauthorized access'));
+            return $this->redirect(['action' => 'index']);
+        }
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if(file_exists(WWW_ROOT."img/".$user['image']))
+            {
+                //delete file
+                unlink(WWW_ROOT."img/".$user['image']);
+            }
+            else{}
+
+            if($_FILES['image']['tmp_name'])
+            {
+                $file_tmp =$_FILES['image']['tmp_name'];
+                $file_name = "".date('mdYHis')."".$_FILES['image']['name'];
+                move_uploaded_file($file_tmp,$base_url."/".$file_name);
+            }
+
+
+          $user = $this->Users->patchEntity($user, $this->request->getData());
+          $user['image']=$file_name;
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('Image changed successfully.'));
+
+                return $this->redirect(['action' => 'profile']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -177,6 +260,6 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue
-        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'add','home']);
     }
 }

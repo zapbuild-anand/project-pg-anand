@@ -120,10 +120,6 @@ class CreateData extends AbstractMigration
         ->addColumn('minimumDuration','integer',['comment'=>'in months','limit'=>'1','null'=>false,])
         ->addColumn('leavingNotice','integer',['comment'=>'in months','limit'=>'1','null'=>false,])
         ->addColumn('earlyLeavingCharge','integer',['null'=>false,])
-        ->create();
-
-        $this->table('services')
-        ->addColumn('pricing_id','integer',['null'=>false])
         ->addColumn('food','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('laundary','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('electricity','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
@@ -430,17 +426,6 @@ class CreateData extends AbstractMigration
             ->addForeignKey(
                 'pg_id',
                 'pgs',
-                'id',
-                [
-                    'update' => 'CASCADE',
-                    'delete' => 'CASCADE',
-                ]
-            )
-            ->update();
-        $this->table('services')
-            ->addForeignKey(
-                'pricing_id',
-                'pricings',
                 'id',
                 [
                     'update' => 'CASCADE',

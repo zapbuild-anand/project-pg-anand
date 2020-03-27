@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-8">
-        <div id="demo" class="carousel slide carousel-fade p-5" data-ride="carousel">
+    <div class="col p-5">
+        <div id="demo" class="carousel slide carousel-fade" data-ride="carousel">
           <ul class="carousel-indicators">
             <li data-target="#demo" data-slide-to="0" class="active"></li>
             <li data-target="#demo" data-slide-to="1"></li>
@@ -38,9 +38,9 @@
         </div>
 
     </div>
-    <div class="col-4">
+    <div class="col-5 p-5 mt-5">
         <?= $this->Form->create() ?>
-            <div class="form-group p-5">
+            <div class="form-group border rounded p-2">
                 <fieldset>
                     <legend class="text-center"><?= __('Login') ?></legend>
                     <?php
@@ -48,21 +48,21 @@
                         echo $this->Form->control('password',['class'=>'form-control mb-4','placeholder'=>'Password','required'=>true]);
                     ?>
                 </fieldset>
-                <div class="d-flex justify-content-around">
-                    <div>
+                <div class="mb-5">
                         <!-- Remember me -->
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox float-left">
                             <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
                             <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
                         </div>
-                    </div>
-                    <div>
+                    <div class="float-right">
                         <a href="">Forgot password?</a>
                     </div>
                 </div>
-                <?= $this->Form->button('Submit',['class'=>'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
+                <?= $this->Form->button('Login',['class'=>'btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
+                <div class="text-md-center">
+                  Don't have an account! <?= $this->Html->link(__('Register here'), ['action' => 'add']) ?>
+                </div>
             </div>
         <?= $this->Form->end() ?>
-
     </div>
 </div>

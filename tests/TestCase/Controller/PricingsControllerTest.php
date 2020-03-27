@@ -24,7 +24,6 @@ class PricingsControllerTest extends TestCase
     protected $fixtures = [
         'app.Pricings',
         'app.Pgs',
-        'app.Services',
     ];
 
     /**

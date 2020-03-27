@@ -55,7 +55,7 @@ class RulesFixture extends TestFixture
                 'smoking' => 'Lorem ipsum dolor sit amet',
                 'alcohal' => 'Lorem ipsum dolor sit amet',
                 'events' => 'Lorem ipsum dolor sit amet',
-                'lateEntry' => '11:54:31',
+                'lateEntry' => '12:34:11',
                 'others' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
             ],
         ];
