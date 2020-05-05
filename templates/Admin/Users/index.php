@@ -1,44 +1,28 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
- */
-?>
 <div class="users index content">
-    <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Owners') ?></h3>
+    <h3 class="text-center"><?= __('PG Owner Details') ?></h3>
+    <div id="result" class="text-danger"></div>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('firstname') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('lastname') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Full Name') ?></th>
                     <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                     <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('gender') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('dob') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Registeration Date') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user): ?>
-                <tr>
+                <tr id="<?=$user->id?>">
                     <td><?= $this->Number->format($user->id) ?></td>
-                    <td><?= h($user->firstname) ?></td>
-                    <td><?= h($user->lastname) ?></td>
+                    <td><?= h($user->firstname.' '.$user->lastname) ?></td>
                     <td><?= h($user->email) ?></td>
                     <td><?= h($user->phone) ?></td>
-                    <td><?= h($user->gender) ?></td>
-                    <td><?= h($user->dob) ?></td>
                     <td><?= h($user->created) ?></td>
-                    <td><?= h($user->modified) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                        <?php echo "<button onclick='remove($user->id);' class='btn btn-outline-danger btn-rounded mr-2' id='remove$user->id'>Remove</button>"; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -56,3 +40,27 @@
         <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function remove(userid)
+    {
+        if (!confirm("Do you want to remove this owner #"+userid)){
+        return false;
+        }
+        else
+        {  
+            var dataString='id='+userid;
+            $.ajax({
+                method: 'post',
+                url : "<?php echo $this->Url->build( ['controller' => 'Users', 'action' => 'delete' ] ); ?>",
+                data:dataString,
+                success: function( response )
+                {    
+                    $('#result').html(response);
+                    $('#'+userid).remove();
+                }
+            });   
+        }        
+    }
+</script>

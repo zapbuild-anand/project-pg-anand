@@ -91,7 +91,7 @@ class FacilitiesTable extends Table
             ->notEmptyString('laundary');
 
         $validator
-            ->scalar('security')
+            ->scalar('pgsecurity')
             ->notEmptyString('security');
 
         $validator

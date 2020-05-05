@@ -18,6 +18,7 @@ class Pg extends Entity
         'houseNumber' => true,
         'landmark' => true,
         'availableFrom' => true,
+        'description' => true,
         'status' => true,
         'approved' => true,
         'expire' => true,

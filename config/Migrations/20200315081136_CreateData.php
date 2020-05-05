@@ -26,6 +26,7 @@ class CreateData extends AbstractMigration
         ->addColumn('gender','enum',[
             'values'=>['1','2','3'],
             'comment'=>'1-male 2-female 3-others',
+            'default'=>'1',
             'null'=>false,
         ])
         ->addColumn('dob','date',['null'=>true,])
@@ -36,6 +37,7 @@ class CreateData extends AbstractMigration
             'default'=>'1',
             'null'=>false,
         ])
+        ->addColumn('token','string',['limit'=>'255','null'=>true,])
         ->addColumn('created','datetime',['null'=>false,])
         ->addColumn('modified','datetime',['null'=>false,])
         ->create();
@@ -57,6 +59,7 @@ class CreateData extends AbstractMigration
         ->addColumn('houseNumber','integer',['null'=>false,])
         ->addColumn('landmark','string',['limit'=>'50','null'=>false,])
         ->addColumn('availableFrom','date',['null'=>false,])
+        ->addColumn('description','text',['null'=>true])
         ->addColumn('status','enum',[
             'values'=>['1','0'],
             'comment'=>'1-available 0-not available',
@@ -99,7 +102,7 @@ class CreateData extends AbstractMigration
         ->addColumn('geaser','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('cooler','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('laundary','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
-        ->addColumn('security','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
+        ->addColumn('pgsecurity','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('cctv','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('parking','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->create();
@@ -116,6 +119,8 @@ class CreateData extends AbstractMigration
         $this->table('pricings')
         ->addColumn('pg_id','integer',['null'=>false,])
         ->addColumn('rent','integer',['null'=>false,])
+        ->addColumn('per','enum',['values'=>['1','2'],'default'=>'1','null'=>false,])
+        ->addColumn('rent','integer',['limit'=>'1','default'=>'1','null'=>false,])
         ->addColumn('security','integer',['null'=>false,])
         ->addColumn('minimumDuration','integer',['comment'=>'in months','limit'=>'1','null'=>false,])
         ->addColumn('leavingNotice','integer',['comment'=>'in months','limit'=>'1','null'=>false,])
@@ -137,6 +142,11 @@ class CreateData extends AbstractMigration
         ->addColumn('events','enum',['values'=>['1','0'],'default'=>'0','null'=>false,])
         ->addColumn('lateEntry','time',['null'=>true,])
         ->addColumn('others','text',['null'=>true])
+        ->create();
+
+        $this->table('shortlists')
+        ->addColumn('user_id','integer',['null'=>false])
+        ->addColumn('pg_id','integer',['null'=>false])
         ->create();
 
         
@@ -179,6 +189,8 @@ class CreateData extends AbstractMigration
         $this->table('requests')
         ->addColumn('pg_id','integer',['null'=>false,])
         ->addColumn('user_id','integer',['null'=>false,])
+        ->addColumn('checkindate','date',['null'=>false,])
+        ->addColumn('message','text',['null'=>true,])
         ->addColumn('status','enum',[
             'values'=>['1','0'],
             'comment'=>'1-accepted 0-pending',

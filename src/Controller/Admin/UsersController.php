@@ -45,16 +45,17 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
-    public function delete($id = null)
+    public function delete()
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['ajax', 'delete']);
+        $id=$this->request->getData('id');
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+            echo "Owner removed!";
+            die;
         } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            echo 'The user could not be deleted. Please, try again.';
+            die;
         }
-
-        return $this->redirect(['action' => 'index']);
     }
 }

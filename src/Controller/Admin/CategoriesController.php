@@ -11,18 +11,18 @@ class CategoriesController extends AppController
         $this->viewBuilder()->setLayout('adminLayout');
     }
 
-    public function city()
+    public function editCity()
     {
-        $this->Authorization->skipAuthorization();
+        //$this->Authorization->skipAuthorization();
         $this->paginate = [
             'contain' => ['ParentCategories'],
         ];
         $categories = $this->paginate($this->Categories->find('all')->where(['Categories.parent_id is not'=>null]));
-
-        $this->set(compact('categories'));
+        $parentCategories = $this->Categories->ParentCategories->find('list', ['limit' => 200])->where(['ParentCategories.parent_id is'=>null]);
+        $this->set(compact('categories', 'parentCategories'));
     }
 
-    public function state()
+    public function editState()
     {
         $this->Authorization->skipAuthorization();
         $this->paginate = [
@@ -48,16 +48,20 @@ class CategoriesController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $category = $this->Categories->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $category = $this->Categories->patchEntity($category, $this->request->getData());
-            if ($this->Categories->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
-
-                return $this->redirect(['action' => 'city']);
+        if ($this->request->is('ajax')) {
+            $category = $this->Categories->patchEntity($category, $this->request->getQuery());
+            $categories=$this->Categories->find('all')->where(['AND'=>['parent_id'=>$category->parent_id,'name'=>$category->name]])->first();
+            if(empty($categories))
+            {
+                if ($this->Categories->save($category)) {
+                    echo '<p class="text-danger">City has been added.<p>';
+                    die;
+                }
             }
-            $this->Flash->error(__('The category could not be saved. Please, try again.'));
+            echo '<p class="text-danger">City already exists!<p>';
+            die;
         }
-        $parentCategories = $this->Categories->ParentCategories->find('list', ['limit' => 200]);
+        $parentCategories = $this->Categories->ParentCategories->find('list', ['limit' => 200])->where(['ParentCategories.parent_id is'=>null]);
         $this->set(compact('category', 'parentCategories'));
     }
 
@@ -65,49 +69,56 @@ class CategoriesController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $category = $this->Categories->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $category = $this->Categories->patchEntity($category, $this->request->getData());
-            if ($this->Categories->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
-
-                return $this->redirect(['action' => 'state']);
+        if ($this->request->is('ajax')) {
+            $category = $this->Categories->patchEntity($category, $this->request->getQuery());
+            $categories=$this->Categories->find('all')->where(['name'=>$category->name])->first();
+            if(empty($categories))
+            {
+                if ($this->Categories->save($category)) {
+                    echo '<p class="text-danger">State has been added.<p>';
+                    die;
+                }
             }
-            $this->Flash->error(__('The category could not be saved. Please, try again.'));
+            echo '<p class="text-danger">State already exists!<p>';
+            die;
         }
         $parentCategories = $this->Categories->ParentCategories->find('list', ['limit' => 200]);
         $this->set(compact('category', 'parentCategories'));
     }
 
-    public function edit($id = null)
+    public function edit()
     {
-        $this->Authorization->skipAuthorization();
-        $category = $this->Categories->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $category = $this->Categories->patchEntity($category, $this->request->getData());
+        if ($this->request->is(['patch', 'ajax', 'put'])) {
+            $id=$this->request->getData('id');
+            $name=$this->request->getData('name');
+            $parent_id=$this->request->getData('parent_id');
+            $category = $this->Categories->get($id, [
+                'contain' => [],
+            ]);
+            $category = $this->Categories->patchEntity($category, ['name'=>$name,'parent_id'=>$parent_id]);
             if ($this->Categories->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                echo '<p class="text-danger">Updated!<p>';
+                die;
             }
-            $this->Flash->error(__('The category could not be saved. Please, try again.'));
+            echo '<p class="text-danger">Error!<p>';
+            die;
         }
         $parentCategories = $this->Categories->ParentCategories->find('list', ['limit' => 200]);
         $this->set(compact('category', 'parentCategories'));
     }
 
-    public function delete($id = null)
+    public function delete()
     {
         $this->Authorization->skipAuthorization();  
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['ajax', 'delete']);
+        $id=$this->request->getData('id');
         $category = $this->Categories->get($id);
         if ($this->Categories->delete($category)) {
-            $this->Flash->success(__('The category has been deleted.'));
+            echo '<p class="text-danger">City deleted!<p>';
+            die;
         } else {
-            $this->Flash->error(__('The category could not be deleted. Please, try again.'));
+            echo '<p class="text-danger">Error in deletion!<p>';
+            die;
         }
-
-        return $this->redirect(['action' => 'city']);
     }
 }

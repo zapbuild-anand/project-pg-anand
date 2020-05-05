@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
 use Authorization\IdentityInterface;
 
 
@@ -19,14 +18,22 @@ class HostsController extends AppController
     }
     public function dashboard()
     {
+        $this->viewBuilder()->setLayout('hostLayout');
     	$this->Authorization->skipAuthorization();
-    	$user = TableRegistry::getTableLocator()->get('Users');
+    	
+        $this->loadModel('Users');
         $id=$this->Authentication->getIdentity()->id;
-        $user=$user->findById($id)->first();
+        $user=$this->Users->findById($id)->first();
         $this->set('user', $user);
-        $pgs = TableRegistry::getTableLocator()->get('Pgs');
-        $pgs=$pgs->findByUser_id($id);
-        $this->set('pgs', $pgs);
+       
+        $this->loadModel('Pgs');
+        $pgs=$this->Pgs->findByUser_id($id);
+        $pc=0;
+            foreach ($pgs as $row) 
+            {
+                $pc++;
+            }
+            $this->set('pgs',$pc);
         
     }
 }

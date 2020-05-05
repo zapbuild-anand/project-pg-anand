@@ -19,6 +19,9 @@ class RequestPolicy implements RequestPolicyInterface
         if (isset($identity) && $identity->type != 3 && $request->getParam('prefix') === 'Admin') {
             return false;
         }
+        if (isset($identity) && $identity->type != 2 && $request->getParam('controller') === 'Hosts' && $request->getParam('action') != 'index') {
+            return false;
+        }
 
         return true;
     }

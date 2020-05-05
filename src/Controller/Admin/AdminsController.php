@@ -1,6 +1,6 @@
 <?php
     namespace App\Controller\Admin;
-    use Cake\ORM\TableRegistry;
+    use Cake\Routing\Router;
     class AdminsController extends AppController
     {
     	public function initialize(): void
@@ -12,8 +12,8 @@
     	{
     		$this->Authorization->skipAuthorization();
     		$user = $this->request->getAttribute('identity');
-            $owners = TableRegistry::getTableLocator()->get('Users');
-    		$owner=$owners->findByType('2');
+            $this->loadModel('Users');
+            $owner=$this->Users->findByType('2');
     		$oc=0;
     		foreach ($owner as $row) 
     		{
@@ -21,17 +21,21 @@
     		}
         	$this->set('owners',$oc);
 
-        	$pgs = TableRegistry::getTableLocator()->get('Pgs');
-    		$pg=$pgs->find();
+        	$this->loadModel('Pgs');
+    		$pg=$this->Pgs->find();
     		$pc=0;
+            $unvpc=0;
     		foreach ($pg as $row) 
     		{
     			$pc++;
+                if($row->approved==0)
+                    $unvpc++;
     		}
         	$this->set('pgs',$pc);
+            $this->set('unvpgs',$unvpc);
 
-        	$categories = TableRegistry::getTableLocator()->get('Categories');
-    		$category=$categories->find();
+        	$this->loadModel('Categories');
+            $category=$this->Categories->find();
     		$cc=0;
     		$sc=0;
     		foreach ($category as $row) 
@@ -47,5 +51,27 @@
     		$this->set('title','Admin Pannel');
     	}
 
+        public function approve()
+        {
+            $this->loadModel('Pgs');
+            if($this->request->is(['ajax','post']))
+            {
+                $this->viewBuilder()->setLayout('ajax');
+                $pg_id=$this->request->getQuery('pg_id');
+                $pg = $this->Pgs->get($pg_id, [
+                    'contain' => [],
+                ]);
+                //echo $pg_id;
+                $pg = $this->Pgs->patchEntity($pg, ['approved'=>1],['accessibleFields' => ['user_id' => false]]);
+                if ($this->Pgs->save($pg)) {
+                }
+            }
+            $this->paginate = [
+                'contain' => ['Users'],
+            ];
+            $pgs = $this->paginate($this->Pgs->findByApproved(0));
+
+            $this->set(compact('pgs'));
+        }
+
     }
-?>

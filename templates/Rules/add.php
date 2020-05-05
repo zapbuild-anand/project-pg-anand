@@ -15,7 +15,7 @@
                         echo $this->Form->control('others',['class'=>'form-control mb-2']);
                     ?>
                 </fieldset>
-                <?= $this->Form->button('Next',['class'=>'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
+                <?= $this->Form->button('Submit',['class'=>'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
             </div>
             <?= $this->Form->end() ?>
         </div>

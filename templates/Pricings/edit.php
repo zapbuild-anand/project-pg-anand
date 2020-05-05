@@ -1,42 +1,29 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Pricing $pricing
- */
-?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $pricing->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $pricing->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Pricings'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
+<div class="row justify-content-md-center">
+    <div class="col-4 p-3">
         <div class="pricings form content">
             <?= $this->Form->create($pricing) ?>
-            <fieldset>
-                <legend><?= __('Edit Pricing') ?></legend>
-                <?php
-                    echo $this->Form->control('pg_id', ['options' => $pgs]);
-                    echo $this->Form->control('rent');
-                    echo $this->Form->control('security');
-                    echo $this->Form->control('minimumDuration');
-                    echo $this->Form->control('leavingNotice');
-                    echo $this->Form->control('earlyLeavingCharge');
-                    echo $this->Form->control('food');
-                    echo $this->Form->control('laundary');
-                    echo $this->Form->control('electricity');
-                    echo $this->Form->control('wifi');
-                    echo $this->Form->control('housekeeping');
-                    echo $this->Form->control('dth');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <div class="form-group border rounded p-2">
+                <fieldset>
+                    <legend><?= __('Edit Pricing') ?></legend>
+                    <?php
+                        echo $this->Form->control('rent',['class'=>'form-control mb-2']);
+                        echo $this->Form->control('per', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'bed'],['value' => '2', 'text' => 'bedroom']]]) ;
+                        echo $this->Form->control('duration',['class'=>'form-control mb-2']);
+                        echo $this->Form->control('security',['class'=>'form-control mb-2']);
+                        echo $this->Form->control('minimumDuration',['class'=>'form-control mb-2']);
+                        echo $this->Form->control('leavingNotice',['class'=>'form-control mb-2']);
+                        echo $this->Form->control('earlyLeavingCharge',['class'=>'form-control mb-2']);
+                        echo '<label for="sel1">Services Included</label>';
+                        echo $this->Form->control('food', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Yes'],['value' => '0', 'text' => 'No']]]) ;
+                        echo $this->Form->control('laundary', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Yes'],['value' => '0', 'text' => 'No']]]) ;
+                        echo $this->Form->control('electricity', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Yes'],['value' => '0', 'text' => 'No']]]) ;
+                        echo $this->Form->control('wifi', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Yes'],['value' => '0', 'text' => 'No']]]) ;
+                        echo $this->Form->control('housekeeping', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Yes'],['value' => '0', 'text' => 'No']]]) ;
+                        echo $this->Form->control('dth', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Yes'],['value' => '0', 'text' => 'No']]]) ;
+                    ?>
+                </fieldset>
+                <?= $this->Form->button('Submit',['class'=>'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
+            </div>
             <?= $this->Form->end() ?>
         </div>
     </div>

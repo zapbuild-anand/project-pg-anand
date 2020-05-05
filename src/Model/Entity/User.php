@@ -17,6 +17,7 @@ class User extends Entity
         'dob' => true,
         'image' => true,
         'type' => true,
+        'token' => true,
         'created' => true,
         'modified' => true,
         'addresses' => true,

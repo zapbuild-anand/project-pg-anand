@@ -79,9 +79,17 @@ class UsersTable extends Table
             ->allowEmptyDate('dob');
 
         $validator
-            ->scalar('image')
-            ->maxLength('image', 50)
-            ->allowEmptyFile('image');
+            ->allowEmptyFile('image')
+            ->add('image',[
+                'mimeType'=>[
+                    'rule'=>['mimetype',['image/jpg','image/png','image/jpeg']],
+                'message'=>'Please upload only jpeg and png.',
+            ],
+            'filesize'=>[
+                'rule'=>['filesize','<=','2MB'],
+                'message'=>'Image file size size must be less than 2MB.',
+            ],
+        ]);
 
         $validator
             ->scalar('type')

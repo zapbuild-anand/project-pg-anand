@@ -28,14 +28,21 @@ class PricingsController extends AppController
     }
     public function add($id = null)
     {
+        $pricing = $this->Pricings->findByPg_id($id)->first();
+        if($pricing)
+        {
+            return $this->redirect(['controller'=>'pricings','action' => 'add',$id]);
+        }
         $pricing = $this->Pricings->newEmptyEntity();
         if ($this->request->is('post')) {
             $pricing = $this->Pricings->patchEntity($pricing, $this->request->getData());
             $pricing->pg_id=$id;
             if ($this->Pricings->save($pricing)) {
                 $this->Flash->success(__('The pricing has been saved.'));
-
-                return $this->redirect(['controller'=>'rules','action' => 'add',$id]);
+                $this->loadModel('Pgs');
+                $newpg=$this->Authentication->getIdentity()->id;
+                $pg = $this->Pgs->findByUser_id($newpg)->last();
+                return $this->redirect(['controller'=>'pgs','action' => 'details',$pg->id]);
             }
             $this->Flash->error(__('The pricing could not be saved. Please, try again.'));
         }
@@ -44,20 +51,21 @@ class PricingsController extends AppController
     }
     public function edit($id = null)
     {
-        $pricing = $this->Pricings->get($id, [
-            'contain' => [],
-        ]);
+        $pricing = $this->Pricings->findByPg_id($id)->first();
+        if(!$pricing)
+        {
+            return $this->redirect(['controller'=>'pricings','action' => 'add',$id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $pricing = $this->Pricings->patchEntity($pricing, $this->request->getData());
             if ($this->Pricings->save($pricing)) {
-                $this->Flash->success(__('The pricing has been saved.'));
+                $this->Flash->success(__('Pricings has been updated.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>'pgs','action' => 'edit',$id]);
             }
             $this->Flash->error(__('The pricing could not be saved. Please, try again.'));
         }
-        $pgs = $this->Pricings->Pgs->find('list', ['limit' => 200]);
-        $this->set(compact('pricing', 'pgs'));
+        $this->set(compact('pricing'));
     }
     public function delete($id = null)
     {

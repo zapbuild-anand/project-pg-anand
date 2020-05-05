@@ -23,7 +23,7 @@ class Facility extends Entity
         'geaser' => true,
         'cooler' => true,
         'laundary' => true,
-        'security' => true,
+        'pgsecurity' => true,
         'cctv' => true,
         'parking' => true,
         'pg' => true,

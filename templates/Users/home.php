@@ -2,10 +2,16 @@
 <div class="row">
 	<div class="col-4 p-4">
 	<h2>It's Easy</h2>
-		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search" placeholder="Enter area, city" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-		</form>
+    <?= $this->Form->create(null,['class'=>'form-inline my-2 my-lg-0','action'=>'search','type'=>'get']) ?>
+        <fieldset>
+            <?php echo $this->Form->control('search',['list'=>'data-list','type'=>'search','label'=>'','class'=>'form-control mr-sm-2','placeholder'=>'Enter area, city','autocomplete'=>'off']) ?>
+            <datalist id="data-list">
+                <div class="result"></div>
+            </datalist>
+            
+        </fieldset>
+        <?= $this->Form->button(__('Submit'),['class'=>'btn btn-outline-success my-2 my-sm-0' ,'type'=>'submit']) ?>
+    <?= $this->Form->end() ?>
 	</div>
 	<div class="col-8 p-4 text-lg-right">
 		<?= $this->Html->link(__('Host Zone'), ['controller'=>'hosts','action' => 'index'], ['class' => 'side-nav-item']) ?>
@@ -84,3 +90,34 @@
 		<h1></h1>
 	</div>
 </div> -->
+
+
+
+
+<script>
+    $(document).ready(function(){
+         $('#search').keyup(function(){
+            var searchKey='';
+            if ($.trim($('#search').val()).length >=2) {
+                var searchkey = $(this).val();
+                searchPlace(searchkey);
+            }
+            else{
+                $('.result').html('');
+            }    
+         });
+
+        function searchPlace( keyword ){
+        var data = keyword;
+        $.ajax({
+                method: 'get',
+                url : "<?php echo $this->Url->build( [ 'controller' => 'Users', 'action' => 'Search' ] ); ?>",
+                data: {keyword:data},
+                success: function( response )
+                {       
+                    $( '.result' ).html(response);
+                }
+            });
+        };
+    });
+</script>

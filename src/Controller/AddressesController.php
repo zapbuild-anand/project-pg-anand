@@ -30,20 +30,29 @@ class AddressesController extends AppController
 
     public function addPg($id = null)
     {
+        $address = $this->Addresses->findByPg_id($id)->first();
+        if($address)
+        {
+            $this->Flash->error(__('Already added.'));
+            return $this->redirect(['controller'=>'addresses','action' => 'edit',$id]);
+        }
         $address = $this->Addresses->newEmptyEntity();
         if ($this->request->is('post')) {
             $address = $this->Addresses->patchEntity($address, $this->request->getData());
             $address->pg_id=$id;
             if ($this->Addresses->save($address)) {
                 $this->Flash->success(__('The address has been saved.'));
-
-                return $this->redirect(['controller'=>'facilities','action' => 'add',$id]);
+                $this->loadModel('Pgs');
+                $newpg=$this->Authentication->getIdentity()->id;
+                $pg = $this->Pgs->findByUser_id($newpg)->last();
+                return $this->redirect(['controller'=>'pgs','action' => 'details',$pg->id]);
             }
             $this->Flash->error(__('The address could not be saved. Please, try again.'));
         }
-        $users = $this->Addresses->Users->find('list', ['limit' => 200]);
-        $pgs = $this->Addresses->Pgs->find('list', ['limit' => 200]);
-        $this->set(compact('address', 'users', 'pgs'));
+        $this->loadModel('Categories');
+        $categories = $this->Categories->find('list', ['limit' => 200]);
+        $categories->select(['name']);
+        $this->set(compact('address','categories'));
     }
 
     public function addUser($id = null)
@@ -66,21 +75,21 @@ class AddressesController extends AppController
 
     public function edit($id = null)
     {
-        $address = $this->Addresses->get($id, [
-            'contain' => [],
-        ]);
+        $address = $this->Addresses->findByPg_id($id)->first();
+        if(!$address)
+        {
+            return $this->redirect(['controller'=>'addresses','action' => 'add-pg',$id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $address = $this->Addresses->patchEntity($address, $this->request->getData());
             if ($this->Addresses->save($address)) {
-                $this->Flash->success(__('The address has been saved.'));
+                $this->Flash->success(__('The address has been updated.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>'pgs','action' => 'edit',$id]);
             }
             $this->Flash->error(__('The address could not be saved. Please, try again.'));
         }
-        $users = $this->Addresses->Users->find('list', ['limit' => 200]);
-        $pgs = $this->Addresses->Pgs->find('list', ['limit' => 200]);
-        $this->set(compact('address', 'users', 'pgs'));
+        $this->set(compact('address'));
     }
 
     public function delete($id = null)

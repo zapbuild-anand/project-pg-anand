@@ -76,6 +76,7 @@ Router::prefix('admin', function (RouteBuilder $routes) {
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    //$builder->connect('/login/*', ['controller' => 'Users', 'action' => 'login']);
 
     /*
      * Connect catchall routes for all controllers.

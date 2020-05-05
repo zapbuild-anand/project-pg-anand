@@ -42,8 +42,10 @@ class ImagesController extends AppController
             $image->pg_id=$id;
             if ($this->Images->save($image)) {
                 $this->Flash->success(__('The image has been saved.'));
-
-                return $this->redirect(['controller'=>'images','action' => 'add',$id]);
+                $this->loadModel('Pgs');
+                $newpg=$this->Authentication->getIdentity()->id;
+                $pg = $this->Pgs->findByUser_id($newpg)->last();
+                return $this->redirect(['controller'=>'pgs','action' => 'details',$pg->id]);
             }
             $this->Flash->error(__('The image could not be saved. Please, try again.'));
         }
@@ -54,15 +56,38 @@ class ImagesController extends AppController
    
     public function edit($id = null)
     {
+        $images = $this->Images->find('all')->where(['pg_id'=>$id]);
+        $this->set(compact('images'));
+        $this->set(compact('id'));
+    }
+
+
+    public function editImage($id = null)
+    {
+        $base_url=WWW_ROOT."img";
         $image = $this->Images->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            if(file_exists(WWW_ROOT."img/".$image->image))
+            {
+                //delete file
+                unlink(WWW_ROOT."img/".$image->image);
+            }
+            if($_FILES['image']['tmp_name'])
+            {
+                $file_tmp =$_FILES['image']['tmp_name'];
+                $ext=explode(".",$_FILES['image']['name']);
+                $file_name = "".date('mdYHis').".".$ext[1];
+                move_uploaded_file($file_tmp,$base_url."/".$file_name);
+            }
+
             $image = $this->Images->patchEntity($image, $this->request->getData());
+            $image->image=$file_name;
             if ($this->Images->save($image)) {
                 $this->Flash->success(__('The image has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>'images','action' => 'edit',$image->pg_id]);
             }
             $this->Flash->error(__('The image could not be saved. Please, try again.'));
         }

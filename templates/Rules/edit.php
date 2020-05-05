@@ -1,38 +1,22 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Rule $rule
- */
-?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $rule->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $rule->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Rules'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
+
+<div class="row justify-content-md-center">
+    <div class="col-4 p-3">
         <div class="rules form content">
             <?= $this->Form->create($rule) ?>
-            <fieldset>
-                <legend><?= __('Edit Rule') ?></legend>
-                <?php
-                    echo $this->Form->control('pg_id', ['options' => $pgs]);
-                    echo $this->Form->control('pets');
-                    echo $this->Form->control('visitors');
-                    echo $this->Form->control('smoking');
-                    echo $this->Form->control('alcohal');
-                    echo $this->Form->control('events');
-                    echo $this->Form->control('lateEntry', ['empty' => true]);
-                    echo $this->Form->control('others');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <div class="form-group border rounded p-2">
+                <fieldset>
+                    <legend><?= __('Edit rules regarding PG') ?></legend>
+                    <?php
+                        echo $this->Form->control('pets', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Allowed'],['value' => '0', 'text' => 'Not Allowed']]]) ;
+                        echo $this->Form->control('smoking', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Allowed'],['value' => '0', 'text' => 'Not Allowed']]]) ;
+                        echo $this->Form->control('alcohal', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Allowed'],['value' => '0', 'text' => 'Not Allowed']]]) ;
+                        echo $this->Form->control('events', ['type' => 'radio', 'options' => [['value' => '1', 'text' => 'Allowed'],['value' => '0', 'text' => 'Not Allowed']]]) ;
+                        echo $this->Form->control('lateEntry', ['empty' => true,'class'=>'form-control mb-2']);
+                        echo $this->Form->control('others',['class'=>'form-control mb-2']);
+                    ?>
+                </fieldset>
+                <?= $this->Form->button('Next',['class'=>'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
+            </div>
             <?= $this->Form->end() ?>
         </div>
     </div>

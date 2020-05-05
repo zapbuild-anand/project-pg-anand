@@ -25,6 +25,8 @@ class UserPolicy
 
     public function canView(IdentityInterface $user, User $resource)
     {
+        if($user->get('type')==3)
+            return true;
         return $this->isAuthor($user, $resource);
     }
     protected function isAuthor(IdentityInterface $user,User $resource)

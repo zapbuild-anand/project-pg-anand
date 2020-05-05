@@ -4,9 +4,10 @@
             <div class="form-group p-3">
                 <fieldset>
                     <legend><?= __('Change Image') ?></legend>
-                    <?php
-                        echo $this->Form->control('image',['label'=>'Select new image','accept'=>['.jpg,','.jpeg'],'type'=>'file','id'=>'file']);
-                    ?>
+                    <div class="form-group">
+                                <?= $this->Form->control('image',['accept'=>['.jpg,','.jpeg','.png'],'type'=>'file','class'=>'form-control mb-2','id'=>'file','label'=>'Profile Picture','required'=>true]);?>
+                                <span id="error_image" class="text-danger"></span>
+                            </div>
                 </fieldset>
                 <?= $this->Form->button('Submit',['class'=>'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0']) ?>
                 <?= $this->Form->end() ?>

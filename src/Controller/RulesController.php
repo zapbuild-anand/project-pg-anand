@@ -29,14 +29,21 @@ class RulesController extends AppController
     }
     public function add($id = null)
     {
+        $rule = $this->Rules->findByPg_id($id)->first();
+        if($rule)
+        {
+            return $this->redirect(['controller'=>'rules','action' => 'edit',$id]);
+        }
         $rule = $this->Rules->newEmptyEntity();
         if ($this->request->is('post')) {
             $rule = $this->Rules->patchEntity($rule, $this->request->getData());
             $rule->pg_id=$id;
             if ($this->Rules->save($rule)) {
                 $this->Flash->success(__('The rule has been saved.'));
-
-                return $this->redirect(['controller'=>'images','action' => 'add',$id]);
+                $this->loadModel('Pgs');
+                $newpg=$this->Authentication->getIdentity()->id;
+                $pg = $this->Pgs->findByUser_id($newpg)->last();
+                return $this->redirect(['controller'=>'pgs','action' => 'details',$pg->id]);
             }
             $this->Flash->error(__('The rule could not be saved. Please, try again.'));
         }
@@ -45,15 +52,17 @@ class RulesController extends AppController
     }
     public function edit($id = null)
     {
-        $rule = $this->Rules->get($id, [
-            'contain' => [],
-        ]);
+        $rule = $this->Rules->findByPg_id($id)->first();
+        if(!$rule)
+        {
+            return $this->redirect(['controller'=>'rules','action' => 'add',$id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $rule = $this->Rules->patchEntity($rule, $this->request->getData());
             if ($this->Rules->save($rule)) {
-                $this->Flash->success(__('The rule has been saved.'));
+                $this->Flash->success(__('Rules has been updated.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>'pgs','action' => 'edit',$id]);
             }
             $this->Flash->error(__('The rule could not be saved. Please, try again.'));
         }

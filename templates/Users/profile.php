@@ -1,23 +1,57 @@
 <style type="text/css">
-    .container {
+.container {
   position: relative;
-  text-align: center;
-  color: white;
+  width: 50%;
 }
-    .centered {
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 160px;
+  height: 160px;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 48%;
   transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.container:hover .image {
+  opacity: 0.3;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  color: black;
+  font-size: 16px;
+  padding: 16px 32px;
 }
 </style>
-<div class="row mt-3">
-    <div class="col">
+<div class="row justify-content-md-center mt-3">
+    <div class="col-4">
         <div class="container">
             <a href="change-image">
-                <?php echo $this->Html->image($user->image, ['class'=>'rounded-circle','width'=>'160','height'=>'160','alt' => 'CakePHP','title'=>$user->firstname]); ?>
-                
-            <div class="centered">Click to change</div>
+                <?php 
+                if(!empty($user->image))
+                    echo $this->Html->image($user->image, ['class'=>'image rounded-circle','alt' => 'CakePHP','title'=>$user->firstname]); 
+                else
+                    echo $this->Html->image('avtar.png', ['class'=>'image rounded-circle','width'=>'160','height'=>'160','alt' => 'CakePHP','title'=>$user->firstname]); 
+
+                ?>
+                <div class="middle">
+                    <div class="text">Click here to change</div>
+                </div>
             </a>
         </div>
     </div>

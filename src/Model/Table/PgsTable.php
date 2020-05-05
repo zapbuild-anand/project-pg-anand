@@ -100,6 +100,10 @@ class PgsTable extends Table
             ->notEmptyDate('availableFrom');
 
         $validator
+            ->scalar('description')
+            ->allowEmptyString('description');
+
+        $validator
             ->scalar('status')
             ->notEmptyString('status');
 

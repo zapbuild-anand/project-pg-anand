@@ -1,7 +1,8 @@
 <div class="users index content">
     <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <h3><?= __('Users') ?></h3>
-    <div class="table-responsive">
+    <?= $this->Form->control('search'); ?>
+    <div class="table-content">
         <table class="table">
             <thead>
                 <tr>
@@ -44,15 +45,38 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->Paginator->first('<< ' . __('first')) ?>
+                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <?= $this->Paginator->numbers() ?>
+                <?= $this->Paginator->next(__('next') . ' >') ?>
+                <?= $this->Paginator->last(__('last') . ' >>') ?>
+            </ul>
+            <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+        </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function(){
+         $('#search').keyup(function(){
+            var searchkey = $(this).val();
+            searchTags(searchkey);
+         });
+
+        function searchTags( keyword ){
+        var data = keyword;
+        $.ajax({
+                method: 'get',
+                url : "<?php echo $this->Url->build( [ 'controller' => 'Users', 'action' => 'Search' ] ); ?>",
+                data: {keyword:data},
+                success: function( response )
+                {       
+                    $( '.table-content' ).html(response);
+                }
+            });
+        };
+    });
+</script>
